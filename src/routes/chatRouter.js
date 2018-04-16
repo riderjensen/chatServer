@@ -5,7 +5,7 @@ const chatRouter = express.Router();
 function router(nav) {
     chatRouter.route('/')
         .get((req, res) => {
-            res.send('this is the <h1>chat</h1> area');
+            res.render('chat', { nav });
         });
     return chatRouter;
 }

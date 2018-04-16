@@ -26,3 +26,28 @@ $("#navbar a").on('click', function(event) {
     } // End if
   
   });
+
+
+  var userName = "rider";
+    function getName(){
+        userName = prompt("Username?");
+        document.getElementById("username").innerHTML = ("Username: "+userName);
+    }
+    getName();
+    var socket = io('http://127.0.0.1:3000/');
+        socket.on('news', function (data) {
+        console.log(data);
+        socket.emit('my other event', { my: 'data' });
+    });
+    var x = document.getElementById("submitButton");
+    x.onclick = function(){
+        var userMessage = document.getElementById("data").value;
+        var userTotal = [userName, userMessage];
+        socket.emit('message', userTotal);
+    };
+    socket.on("otherMessage", function(userData){
+        var pTag = document.createElement("p");
+        var textNode = document.createTextNode(userData[0] + ": "+ userData[1]);
+        pTag.appendChild(textNode);
+        document.getElementById("userMessages").appendChild(pTag);
+    });

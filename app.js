@@ -1,7 +1,10 @@
 const express = require('express');
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 
 const port = process.env.PORT;
-const app = express();
+
 const nav = [{
     Link: '/auth',
     Text: 'Profile'
