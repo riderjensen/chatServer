@@ -32,4 +32,21 @@ app.get('/', (req, res) => {
 });
 
 
-app.listen(port, () => console.log(`App is running on ${port}`));
+let currentUsers = 0;
+
+io.on('connection', function (socket) {
+    currentUsers = currentUsers + 1;
+    console.log("Current Users Here: " + currentUsers);
+    socket.on('my other event', function (data) {
+      console.log(data);
+    });
+    socket.on('message', function (data) {
+      io.emit('otherMessage', data);
+    });
+    socket.on('disconnect', function () {
+    currentUsers = currentUsers -1;
+    console.log("Current Users Here: " + currentUsers);
+  });
+  });
+
+server.listen(port, () => console.log(`App is running on ${port}`));

@@ -27,7 +27,6 @@ $("#navbar a").on('click', function(event) {
   
   });
 
-
   var userName = "rider";
     function getName(){
         userName = prompt("Username?");
