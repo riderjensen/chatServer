@@ -51,3 +51,21 @@ signUpU.onkeyup = () => {
         signUpU.classList.add('badInputField');
     }
 };
+
+
+// Adding tooltips to the sign up areas
+document.getElementById('signUpUsername').addEventListener('focusout', () => {
+  document.getElementById('signUpUsernameReqs').classList.toggle('toolTipHide');
+})
+
+document.getElementById('signUpUsername').addEventListener('focus', () => {
+    document.getElementById('signUpUsernameReqs').classList.toggle('toolTipHide');
+})
+
+document.getElementById('signUpPassword').addEventListener('focusout', () => {
+  document.getElementById('signUpPasswordReqs').classList.toggle('toolTipHide');
+})
+
+document.getElementById('signUpPassword').addEventListener('focus', () => {
+    document.getElementById('signUpPasswordReqs').classList.toggle('toolTipHide');
+})
