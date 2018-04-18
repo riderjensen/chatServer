@@ -1,27 +1,53 @@
-// Add your javascript here
-// Don't forget to add it into respective layouts where this js file is needed
+const signUpP = document.getElementById('signUpPassword');
+const lowerCaseLetters = /[a-z]/g;
+const numbers = /[0-9]/g;
+const upperCaseLetters = /[A-Z]/g;
 
-// Add smooth scrolling on all links inside the navbar
-$("#navbar a").on('click', function (event) {
-    // Make sure this.hash has a value before overriding default behavior
-    if (this.hash !== "") {
+// When the user clicks on the password field, show the message box
+signUpP.onfocus = () => {
+    document.getElementById('passwordReqs').style.display = 'block';
+};
 
-        // Prevent default anchor click behavior
-        event.preventDefault();
+// When the user clicks outside of the password field, hide the message box
+signUpP.onblur = () => {
+    document.getElementById('passwordReqs').style.display = 'none';
+    signUpP.classList.remove('badInputField');
+};
 
-        // Store hash
-        var hash = this.hash;
+// When the user starts to type something inside the password field
+signUpP.onkeyup = () => {
+    if ((signUpP.value.match(lowerCaseLetters))
+        && (signUpP.value.match(upperCaseLetters))
+        && (signUpP.value.match(numbers)) && (signUpP.value.length >= 8)) {
+        signUpP.classList.remove('badInputField');
+    } else {
+        signUpP.classList.add('badInputField');
+    }
+};
 
-        // Using jQuery's animate() method to add smooth page scroll
-        // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
-        $('html, body').animate({
-            scrollTop: $(hash).offset().top
-        }, 800, function () {
 
-            // Add hash (#) to URL when done scrolling (default click behavior)
-            window.location.hash = hash;
-        });
+const signUpU = document.getElementById('signUpUsername');
 
-    } // End if
+// When the user clicks on the username field, show the message box
+signUpU.onfocus = () => {
+    document.getElementById('usernameReqs').style.display = 'block';
+};
 
-});
+// When the user clicks outside of the username field, hide the message box
+signUpU.onblur = () => {
+    document.getElementById('usernameReqs').style.display = 'none';
+    signUpU.classList.remove('badInputField');
+};
+
+// When the user starts to type something inside the username field
+signUpU.onkeyup = () => {
+    if (((signUpU.value.match(lowerCaseLetters))
+        || (signUpU.value.match(upperCaseLetters))
+        || (signUpU.value.match(numbers)))
+        && (signUpU.value.length >= 5)
+        && (signUpU.value.length <= 20)) {
+        signUpU.classList.remove('badInputField');
+    } else {
+        signUpU.classList.add('badInputField');
+    }
+};

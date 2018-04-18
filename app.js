@@ -53,16 +53,16 @@ app.get('/', (req, res) => {
 let currentUsers = 0;
 
 io.on('connection', (socket) => {
-    currentUsers += 1;
+    currentUsers += 0.5;
     console.log(`Current Users Here: ${currentUsers}`);
     socket.on('my other event', (data) => {
         console.log(data);
     });
     socket.on('message', (data) => {
-        io.emit('otherMessage', data);
+        io.emit('returnMessage', data);
     });
     socket.on('disconnect', () => {
-        currentUsers -= 1;
+        currentUsers -= 0.5;
         console.log(`Current Users Here: ${currentUsers}`);
     });
 });
