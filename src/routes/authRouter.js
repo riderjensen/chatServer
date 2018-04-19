@@ -53,10 +53,10 @@ function router(nav) {
             }
         })
         .get((req, res) => {
-            const user = req.user;
+            const userData = req.user;
             res.render('profile', {
                 nav,
-                user,
+                userData,
                 title: 'Profile'
             });
         });

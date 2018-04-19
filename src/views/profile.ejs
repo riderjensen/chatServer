@@ -41,9 +41,9 @@
         <div class="row">
             <div class="col-lg-12 col-sm-12 pt-2">
               <div>
-                <%for (var i=0; i < user.length; i++) {%>
-                  <h1><%=user[i]%></h1>
-                <%}%>
+                  <h2><%=userData.username%></h2>
+                  <h2><%=userData.password%></h2>
+                  <h3><%=userData.ObjectId%></h3>
               </div>
             </div>
         </div>
@@ -102,11 +102,7 @@
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.dev.js"></script>
-    <script>
-      var socket = io();
-    </script>
     <script src="/scripts/main.js" type="text/javascript"></script>
-    <script src="/scripts/socketScripts.js" type="text/javascript"></script>
   </body>
 
 </html>
