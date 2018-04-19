@@ -53,7 +53,12 @@ function router(nav) {
             }
         })
         .get((req, res) => {
-            res.json(req.user);
+            const user = req.user;
+            res.render('profile', {
+                nav,
+                user,
+                title: 'Profile'
+            });
         });
     return authRouter;
 }
