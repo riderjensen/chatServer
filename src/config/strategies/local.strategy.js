@@ -9,14 +9,12 @@ module.exports = function localStrategy() {
         passwordField: 'password'
     }, (username, password, done) => {
         const url = 'mongodb://localhost:27017';
-        const dbName = 'libraryApp';
+        const dbName = 'chatServer';
         (async function mongo() {
             let client;
 
             try {
                 client = await MongoClient.connect(url);
-
-                console.log('Connected correctly to server');
 
                 const db = client.db(dbName);
                 const col = db.collection('users');

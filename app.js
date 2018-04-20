@@ -11,7 +11,7 @@ const io = require('socket.io')(server);
 const port = process.env.PORT;
 
 const nav = [{
-    Link: '/auth',
+    Link: '/auth/profile',
     Text: 'Profile'
 },
 {
