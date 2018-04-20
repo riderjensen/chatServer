@@ -1,22 +1,20 @@
 const express = require('express');
-const passport = require('passport');
 
 const chatRouter = express.Router();
 
 function router(nav) {
     chatRouter.route('/')
         .all((req, res, next) => {
-            if(req.user) {
+            if (req.user) {
                 next();
             } else {
-                res.redirect('/')
+                res.redirect('/');
             }
         })
         .get((req, res) => {
-            const user = req.user;
+            const { user } = req;
             res.render('chat', { nav, user });
-        })
-        ;
+        });
     return chatRouter;
 }
 
