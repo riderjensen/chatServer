@@ -1,13 +1,13 @@
 var socket = io('http://127.0.0.1:3000/');
 // connection to socket IO and sending information to the server
-let userName;
-function getName() {
-    while (userName === '' || userName === null || userName === undefined) {
-        userName = prompt('Username?');
-    }
-    document.getElementById('username').innerHTML = (`${userName}:`);
-}
-getName();
+// let userName;
+// function getName() {
+//     while (userName === '' || userName === null || userName === undefined) {
+//         userName = prompt('Username?');
+//     }
+//     document.getElementById('username').innerHTML = (`${userName}:`);
+// }
+// getName();
 
 const x = document.getElementById('chatButton');
 x.onclick = () => {
