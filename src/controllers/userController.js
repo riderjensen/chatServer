@@ -1,61 +1,55 @@
 const { MongoClient, ObjectID } = require('mongodb');
 
-function bookController(bookService, nav) {
+function chatController(nav) {
     function getIndex(req, res) {
+        const { username } = req.user;
         const url = 'mongodb://localhost:27017';
-        const dbName = 'libraryApp';
+        const dbName = 'chatServer';
 
         (async function mongo() {
             let client;
             try {
                 client = await MongoClient.connect(url);
-                console.log('Connected correctly to server');
 
                 const db = client.db(dbName);
 
-                const col = await db.collection('books');
-
-                const books = await col.find().toArray();
-
+                const col = await db.collection('users');
+                const userFromDB = await col.findOne({ username });
                 res.render(
-                    'bookListView',
+                    'chatList',
                     {
                         nav,
-                        title: 'Library',
-                        books
+                        userFromDB
                     }
                 );
             } catch (err) {
                 console.log(err.stack);
             }
-            client.close();
-        }());
+        }());            
+        
     }
     function getById(req, res) {
         const { id } = req.params;
+
         const url = 'mongodb://localhost:27017';
-        const dbName = 'libraryApp';
+        const dbName = 'chatServer';
+        const user = req.user;
 
         (async function mongo() {
             let client;
             try {
                 client = await MongoClient.connect(url);
-                console.log('Connected correctly to server');
 
                 const db = client.db(dbName);
 
-                const col = await db.collection('books');
+                const col = await db.collection('users');
+                
 
-                const book = await col.findOne({ _id: new ObjectID(id) });
-                console.log(book);
-
-                book.details = await bookService.getBookById(book.bookId);
                 res.render(
-                    'bookView',
+                    'chat',
                     {
                         nav,
-                        title: 'Library',
-                        book
+                        user
                     }
                 );
             } catch (err) {
@@ -77,4 +71,4 @@ function bookController(bookService, nav) {
     };
 }
 
-module.exports = bookController;
+module.exports = chatController;

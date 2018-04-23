@@ -24,7 +24,27 @@ function router(nav) {
                     const col = db.collection('users');
                     const user = { username, password };
                     const results = await col.insertOne(user);
+                    const userFromDB = await col.findOne({ username });
                     req.login(results.ops[0], () => {
+                        const idFromDB = userFromDB._id;
+                        const idFromDBString = idFromDB.str;
+                        console.log(`Id is: ${idFromDB}`);
+                        console.log(`Id is: ${idFromDBString}`);
+                        const usernameFromDB = {
+                            'username':username
+                        }
+                        const newVals = {$push: {rooms: [{
+                            Link:'announcements',
+                            Text:'Announcements'
+                        },
+                        {
+                            Link:idFromDB,
+                            Text:'Your Chat Room'
+                        }
+                        ]}};
+                        col.update(usernameFromDB, newVals, (err, res) => {
+                            if(err) throw err;
+                        })
                         res.redirect('/auth/profile');
                     });
                 } catch (err) {
