@@ -1,5 +1,5 @@
 const express = require('express');
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectID } = require('mongodb');
 const passport = require('passport');
 
 const authRouter = express.Router();
@@ -26,21 +26,19 @@ function router(nav) {
                     const results = await col.insertOne(user);
                     const userFromDB = await col.findOne({ username });
                     req.login(results.ops[0], () => {
-                        const idFromDB = userFromDB._id;
-                        const idFromDBString = idFromDB.str;
-                        console.log(`Id is: ${idFromDB}`);
-                        console.log(`Id is: ${idFromDBString}`);
+                        const { _id } = userFromDB;
                         const usernameFromDB = {
                             'username':username
                         }
                         const newVals = {$push: {rooms: [{
                             Link:'announcements',
                             Text:'Announcements'
-                        },
-                        {
-                            Link:idFromDB,
-                            Text:'Your Chat Room'
                         }
+                        // },
+                        // {
+                        //     Link:{ _id: new ObjectID(_id) },
+                        //     Text:'Your Chat Room'
+                        // }
                         ]}};
                         col.update(usernameFromDB, newVals, (err, res) => {
                             if(err) throw err;
