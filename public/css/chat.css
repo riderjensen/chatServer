@@ -55,3 +55,7 @@ div.userInputFields #chatButton{
 	display: inline;
 	margin-left: 10px;
 }
+
+.user-chat-list-link{
+	display:block;
+}

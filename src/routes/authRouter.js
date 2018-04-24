@@ -28,21 +28,20 @@ function router(nav) {
                     req.login(results.ops[0], () => {
                         const { _id } = userFromDB;
                         const usernameFromDB = {
-                            'username':username
+                            username: username
                         }
-                        const newVals = {$push: {rooms: [{
-                            Link:'announcements',
-                            Text:'Announcements'
-                        }
-                        // },
-                        // {
-                        //     Link:{ _id: new ObjectID(_id) },
-                        //     Text:'Your Chat Room'
-                        // }
-                        ]}};
-                        col.update(usernameFromDB, newVals, (err, res) => {
-                            if(err) throw err;
-                        })
+                        const newVals = {
+                            $push: {
+                                rooms: [{
+                                    Link: { _id: new ObjectID(_id) },
+                                    Text: 'Your Chat Room'
+                                }
+                                ]
+                            }
+                        };
+                        col.update(usernameFromDB, newVals, (err) => {
+                            if (err) throw err;
+                        });
                         res.redirect('/auth/profile');
                     });
                 } catch (err) {

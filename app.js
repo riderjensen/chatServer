@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const session = require('express-session');
+const extraScripts = require('./src/scripts/addRoom');
 
 const app = express();
 const server = require('http').Server(app);
@@ -53,6 +54,10 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
     socket.on('message', (data) => {
         io.emit('returnMessage', data);
+    });
+    socket.on('addRoom', (data) => {
+        const { addRoom } = extraScripts;
+        addRoom(data);
     });
     socket.on('disconnect', () => {
     });

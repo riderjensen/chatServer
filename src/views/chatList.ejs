@@ -41,8 +41,9 @@
         <div class="row">
             <div class="col-lg-6 col-sm-12 pt-2">
               <div>
-                <%for (var i=0; i < 2; i++) {%>
-                  <a class="user-chat-list-link" href="chat/<%=userFromDB.rooms[0].Link%>"><%=userFromDB.rooms[0].Text%></a>
+                  <a class="user-chat-list-link" href="chat/announcements">Announcements</a>
+                <%for (var i=0; i < userRooms[0].length; i++) {%>
+                  <a class="user-chat-list-link" href="chat/<%=userRooms[0][i].Link._id%>"><%=userRooms[0][i].Text%></a>
                 <%}%>
               </div>
             </div>
@@ -80,11 +81,6 @@
           </div>
           <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
             <ul class="list-inline mb-0">
-              <li class="list-inline-item mr-3">
-                <a href="#">
-                  <i class="fa fa-facebook fa-2x fa-fw"></i>
-                </a>
-              </li>
               <li class="list-inline-item mr-3">
                 <a href="#">
                   <i class="fa fa-twitter fa-2x fa-fw"></i>

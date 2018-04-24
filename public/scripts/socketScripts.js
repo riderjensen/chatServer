@@ -6,21 +6,20 @@ var socket = io('http://127.0.0.1:3000/');
 const chatButton = document.getElementById('chatButton');
 chatButton.onclick = () => {
     const userMessage = document.getElementById('inputField').value;
-    if ((userMessage != '')){
+    if ((userMessage !== '')) {
         const date = new Date();
         const timestamp = date.getTime();
         const username = document.getElementById('username').innerHTML;
         const userTotal = [username, userMessage, timestamp];
         socket.emit('message', userTotal);
     }
-    
 };
 
-// scrolling window 
+// scrolling window
 function scrollWindow() {
-    var elem = document.getElementById('userMessages');
+    const elem = document.getElementById('userMessages');
     elem.scrollTop = elem.scrollHeight;
-  };
+}
 
 // creating text node for incoming chat messages
 function createText(username, className, time, message) {
@@ -54,6 +53,7 @@ function createText(username, className, time, message) {
     return divTag;
 }
 
+// create text without a username attached
 function createTextNoUsername(message, time) {
     // time
     const timeSpan = document.createElement('span');
@@ -69,6 +69,8 @@ function createTextNoUsername(message, time) {
     document.getElementById('userMessages').lastChild.appendChild(userInfo);
 }
 
+
+// show incoming message
 socket.on('returnMessage', (userData) => {
     const currentTime = new Date(userData[2]).toLocaleTimeString();
     if (userData[0] === document.getElementById('username').innerHTML) {
@@ -76,7 +78,7 @@ socket.on('returnMessage', (userData) => {
             createTextNoUsername(userData[1], currentTime);
         } else {
             document.getElementById('userMessages').appendChild(createText(userData[0], 'sentFromHere', currentTime, userData[1]));
-        }      
+        }
     } else {
         if (document.getElementById('userMessages').lastElementChild.classList.contains('sentFromOther') === true) {
             createTextNoUsername(userData[1], currentTime);
@@ -89,7 +91,6 @@ socket.on('returnMessage', (userData) => {
 
 // Enter pushes message out
 const input = document.getElementById('inputField');
-
 input.addEventListener('keyup', (event) => {
     event.preventDefault();
     if (event.keyCode === 13) {
@@ -98,3 +99,12 @@ input.addEventListener('keyup', (event) => {
     }
 });
 
+// add room to user list
+const addRoomButton = document.getElementById('addRoom');
+addRoomButton.onclick = () => {
+    const URL = window.location.href;
+    const URLArray = URL.split('/');
+    const URLArrayLength = URLArray.length;
+    const roomID = URLArray[URLArrayLength - 1];
+    socket.emit('addRoom', roomID);
+};
