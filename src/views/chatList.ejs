@@ -42,8 +42,10 @@
             <div class="col-lg-6 col-sm-12 pt-2">
               <div>
                   <a class="user-chat-list-link" href="chat/announcements">Announcements</a>
-                <%for (var i=0; i < userRooms[0].length; i++) {%>
-                  <a class="user-chat-list-link" href="chat/<%=userRooms[0][i].Link._id%>"><%=userRooms[0][i].Text%></a>
+                  <%for (var j=0; j < userRooms.length; j++) {%>
+                <%for (var i=0; i < userRooms[j].length; i++) {%>
+                  <a class="user-chat-list-link" href="chat/<%=userRooms[j][i].Link._id%>"><%=userRooms[j][i].Text%></a>
+                <%}%>
                 <%}%>
               </div>
             </div>

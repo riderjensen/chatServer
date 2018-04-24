@@ -106,5 +106,7 @@ addRoomButton.onclick = () => {
     const URLArray = URL.split('/');
     const URLArrayLength = URLArray.length;
     const roomID = URLArray[URLArrayLength - 1];
-    socket.emit('addRoom', roomID);
+    const username = document.getElementById('username').innerHTML;
+    const roomIDandUser = {'_id':roomID, 'username':username}
+    socket.emit('addRoom', roomIDandUser);
 };
