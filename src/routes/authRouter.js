@@ -20,30 +20,35 @@ function router(nav) {
                     client = await MongoClient.connect(url);
 
                     const db = client.db(dbName);
-
                     const col = db.collection('users');
-                    const user = { username, password };
-                    const results = await col.insertOne(user);
                     const userFromDB = await col.findOne({ username });
-                    req.login(results.ops[0], () => {
-                        const { _id } = userFromDB;
-                        const usernameFromDB = {
-                            username: username
-                        }
-                        const newVals = {
-                            $push: {
-                                rooms: [{
-                                    Link: { _id: new ObjectID(_id) },
-                                    Text: 'Your Chat Room'
-                                }
-                                ]
+                    if (userFromDB){
+                        console.log("Duplicate User");
+                    } else {
+                        const user = { username, password };
+                        const results = await col.insertOne(user);
+
+                        req.login(results.ops[0], () => {
+                            const { _id } = userFromDB;
+                            const usernameFromDB = {
+                                username: username
                             }
-                        };
-                        col.update(usernameFromDB, newVals, (err) => {
-                            if (err) throw err;
+                            const newVals = {
+                                $push: {
+                                    rooms: [{
+                                        Link: { _id: new ObjectID(_id) },
+                                        Text: 'Your Chat Room'
+                                    }
+                                    ]
+                                }
+                            };
+                            col.update(usernameFromDB, newVals, (err) => {
+                                if (err) throw err;
+                            });
+                            res.redirect('/auth/profile');
                         });
-                        res.redirect('/auth/profile');
-                    });
+                    }
+                    
                 } catch (err) {
                     console.log(err);
                 }

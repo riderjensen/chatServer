@@ -20,6 +20,7 @@ module.exports =  {
                 const addRoomHere = await col.findOne({ username });
                 // find owner of the chat room
                 const usernameToAdd = await col.findOne({ _id: new ObjectID(_id) });
+                console.log(addRoomHere.rooms);
                 const addRoomHereUser = {
                     username:username
                 };
@@ -35,9 +36,6 @@ module.exports =  {
                 col.update(addRoomHereUser, newVals, (err) => {
                     if (err) throw err;
                 });
-                console.log('Chat room added');
-
-                // add owner of chatroom with ID to the addRoomHere rooms section on database
             } catch (err) {
                 console.log(err.stack);
             }
