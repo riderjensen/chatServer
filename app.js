@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const session = require('express-session');
-const extraScripts = require('./src/scripts/addRoom');
+const extraScripts = require('./src/scripts/extraScripts');
 
 const app = express();
 const server = require('http').Server(app);
