@@ -20,41 +20,35 @@ module.exports =  {
                 const addRoomHere = await col.findOne({ username });
                 // find owner of the chat room
                 const usernameToAdd = await col.findOne({ _id: new ObjectID(_id) });
+                let roomThereCheck = false;
+                // itterate through all the chat rooms to see if the ID has already been added
                 for(let j=0; j < addRoomHere.rooms.length; j++){
-                        const ugly = data._id;
-                        console.log(`Ugly`);
-                        console.log(ugly);
-                        const test = { _id: ugly };
-                        console.log(`Test`);
-                        console.log(test);
-                        const fakeIdString = addRoomHere.rooms[j].Link;
-                        console.log(`Fake ID`);
-                        console.log(fakeIdString);
-                        if(test === fakeIdString){
-                            console.log("equal!")
+                        const currentUserID = data._id.toString();
+                        const userChatRoomOwnerID = addRoomHere.rooms[j].Link._id.toString();
 
-                        } else{
-                            console.log("not equal");
+                        if(currentUserID === userChatRoomOwnerID){
+                            roomThereCheck = true;
+                        }                 
+                }
+                // if the room is NOT there, then push it into the database
+                if(roomThereCheck != true){
+                    const addRoomHereUser = {
+                        username:username
+                    };
+                    const newVals = {
+                        $push: {
+                            rooms: {
+                                Link: { _id: new ObjectID(_id) },
+                                Text: `${usernameToAdd.username}'s Room`
+                            }
                             
                         }
-                        // if this link is the same as username to add's id then dont add
-                    
+                    };
+                    col.update(addRoomHereUser, newVals, (err) => {
+                        if (err) throw err;
+                    });
                 }
-                const addRoomHereUser = {
-                    username:username
-                };
-                const newVals = {
-                    $push: {
-                        rooms: {
-                            Link: { _id: new ObjectID(_id) },
-                            Text: `${usernameToAdd.username}'s Room`
-                        }
-                        
-                    }
-                };
-                col.update(addRoomHereUser, newVals, (err) => {
-                    if (err) throw err;
-                });
+                
             } catch (err) {
                 console.log(err.stack);
             }
