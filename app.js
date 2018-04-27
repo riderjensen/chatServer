@@ -52,7 +52,12 @@ app.get('/', (req, res) => {
 
 
 io.on('connection', (socket) => {
+    // this area to be used for getting the DB and sending an array of messages?
+    const { pullData } = extraScripts;
+    pullData();
     socket.on('message', (data) => {
+        const { storeData } = extraScripts;
+        storeData(data);
         io.emit('returnMessage', data);
     });
     socket.on('addRoom', (data) => {

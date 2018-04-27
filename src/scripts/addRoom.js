@@ -53,6 +53,12 @@ module.exports =  {
                 console.log(err.stack);
             }
         }());
+    },
+    storeData: function(data){
+        // taking the data and storing it in the db
+        console.log(data);
+    },
+    pullData: function(){
+        console.log("beep boop I am pulling the data");
     }
-
 };
