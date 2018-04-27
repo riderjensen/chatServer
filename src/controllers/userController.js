@@ -17,7 +17,7 @@ function chatController(nav) {
                 const userFromDB = await col.findOne({ username });
                 const userRooms = userFromDB.rooms;
                 res.render(
-                    'chatList',
+                    'announcements',
                     {
                         nav,
                         userRooms
@@ -30,15 +30,33 @@ function chatController(nav) {
     }
 
     function getById(req, res) {
-        const { user } = req;
+        const { username } = req.user;
+        const url = 'mongodb://localhost:27017';
+        const dbName = 'chatServer';
 
-        res.render(
-            'chat',
-            {
-                nav,
-                user
+        (async function mongo() {
+            let client;
+            try {
+                client = await MongoClient.connect(url);
+
+                const db = client.db(dbName);
+
+                const col = await db.collection('users');
+                const userFromDB = await col.findOne({ username });
+                const userRooms = userFromDB.rooms;
+
+                res.render(
+                    'chat',
+                    {
+                        nav,
+                        userFromDB,
+                        userRooms
+                    }
+                );
+            } catch (err) {
+                console.log(err.stack);
             }
-        );
+        }());
     }
     function middleware(req, res, next) {
         // if (req.user) {

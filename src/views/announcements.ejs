@@ -37,20 +37,19 @@
     </nav>
 
     <section>
-      <div class="container">
+      <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-6 col-sm-12 pt-2">
-              <div>
-                  <a class="user-chat-list-link" href="chat/announcements">Announcements</a>
-                  <%for (var j=0; j < userRooms.length; j++) {%>
-                
-                  <a class="user-chat-list-link" href="chat/<%=userRooms[j].Link._id%>"><%=userRooms[j].Text%></a>
-              
-                <%}%>
+          <div class="col-lg-2 col-sm-2 pt-2">
+              <a class="user-chat-list-link" href="/chat">Announcements</a>
+              <%for (var j=0; j < userRooms.length; j++) {%>
+              <a class="user-chat-list-link" href="chat/<%=userRooms[j].Link._id%>"><%=userRooms[j].Text%></a>
+            <%}%>
+          </div>
+            <div class="col-lg-10 col-sm-10 pt-2">
+              <div class="userArea">
+                  <div class="sentFromOther"><p>Welcome to Chatarang, this is where the announcements will be</p></div>
+                </div>
               </div>
-            </div>
-            <div class="col-lg-6 col-sm-12 pt-2">
-
             </div>
         </div>
       </div>
@@ -62,38 +61,10 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
-            <ul class="list-inline mb-2">
-              <li class="list-inline-item">
-                <a href="#">About</a>
-              </li>
-              <li class="list-inline-item">&sdot;</li>
-              <li class="list-inline-item">
-                <a href="#">Contact</a>
-              </li>
-              <li class="list-inline-item">&sdot;</li>
-              <li class="list-inline-item">
-                <a href="#">Terms of Use</a>
-              </li>
-              <li class="list-inline-item">&sdot;</li>
-              <li class="list-inline-item">
-                <a href="#">Privacy Policy</a>
-              </li>
-            </ul>
             <p class="text-muted small mb-4 mb-lg-0">&copy; Rider Jensen 2018. All Rights Reserved.</p>
           </div>
           <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
-            <ul class="list-inline mb-0">
-              <li class="list-inline-item mr-3">
-                <a href="#">
-                  <i class="fa fa-twitter fa-2x fa-fw"></i>
-                </a>
-              </li>
-              <li class="list-inline-item">
-                <a href="#">
-                  <i class="fa fa-instagram fa-2x fa-fw"></i>
-                </a>
-              </li>
-            </ul>
+            <a href="#" id="addRoom">Add this room</a>
           </div>
         </div>
       </div>
