@@ -25,21 +25,22 @@ function router(nav) {
                     if (userFromDB){
                         console.log("Duplicate User");
                     } else {
+                        
                         const user = { username, password };
                         const results = await col.insertOne(user);
 
                         req.login(results.ops[0], () => {
-                            const { _id } = userFromDB;
+                            const { _id } = user;
                             const usernameFromDB = {
                                 username: username
                             }
                             const newVals = {
                                 $push: {
-                                    rooms: [{
+                                    rooms: {
                                         Link: { _id: new ObjectID(_id) },
                                         Text: 'Your Chat Room'
                                     }
-                                    ]
+                                    
                                 }
                             };
                             col.update(usernameFromDB, newVals, (err) => {

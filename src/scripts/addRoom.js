@@ -20,23 +20,36 @@ module.exports =  {
                 const addRoomHere = await col.findOne({ username });
                 // find owner of the chat room
                 const usernameToAdd = await col.findOne({ _id: new ObjectID(_id) });
-                console.log(addRoomHere.rooms[0]);
                 for(let j=0; j < addRoomHere.rooms.length; j++){
-                    for(let i=0; i < addRoomHere.rooms[j].length; i++){
-                        console.log(addRoomHere.rooms[j][i].Link);
+                        const ugly = data._id;
+                        console.log(`Ugly`);
+                        console.log(ugly);
+                        const test = { _id: ugly };
+                        console.log(`Test`);
+                        console.log(test);
+                        const fakeIdString = addRoomHere.rooms[j].Link;
+                        console.log(`Fake ID`);
+                        console.log(fakeIdString);
+                        if(test === fakeIdString){
+                            console.log("equal!")
+
+                        } else{
+                            console.log("not equal");
+                            
+                        }
                         // if this link is the same as username to add's id then dont add
-                    }
+                    
                 }
                 const addRoomHereUser = {
                     username:username
                 };
                 const newVals = {
                     $push: {
-                        rooms: [{
+                        rooms: {
                             Link: { _id: new ObjectID(_id) },
                             Text: `${usernameToAdd.username}'s Room`
                         }
-                        ]
+                        
                     }
                 };
                 col.update(addRoomHereUser, newVals, (err) => {
