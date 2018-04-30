@@ -7,10 +7,9 @@ const chatButton = document.getElementById('chatButton');
 chatButton.onclick = () => {
     const userMessage = document.getElementById('inputField').value;
     if ((userMessage !== '')) {
-        const date = new Date();
-        const timestamp = date.getTime();
-        const username = document.getElementById('username').innerHTML;
-        const userTotal = [username, userMessage, timestamp];
+        // URL
+        const URL = window.location.href;
+        const userTotal = [userMessage, URL];
         socket.emit('message', userTotal);
     }
 };
@@ -107,6 +106,6 @@ addRoomButton.onclick = () => {
     const URLArrayLength = URLArray.length;
     const roomID = URLArray[URLArrayLength - 1];
     const username = document.getElementById('username').innerHTML;
-    const roomIDandUser = {'_id':roomID, 'username':username}
+    const roomIDandUser = { _id: roomID, username: username }
     socket.emit('addRoom', roomIDandUser);
 };

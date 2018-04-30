@@ -57,8 +57,8 @@ io.on('connection', (socket) => {
     pullData();
     socket.on('message', (data) => {
         const { storeData } = extraScripts;
-        storeData(data);
-        io.emit('returnMessage', data);
+        const returnData = storeData(data, chatRouter.userID);
+        io.emit('returnMessage', returnData);
     });
     socket.on('addRoom', (data) => {
         const { addRoom } = extraScripts;

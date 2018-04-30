@@ -4,16 +4,16 @@ const passport = require('passport');
 
 const authRouter = express.Router();
 
+
 function router(nav) {
     authRouter.route('/signUp')
         .get((req, res) => {
-            res.send('this is the <h1>authorization</h1> area');
+            res.redirect('/profile');
         })
         .post((req, res) => {
             const { username, password } = req.body;
             const url = 'mongodb://localhost:27017';
             const dbName = 'chatServer';
-
             (async function addUser() {
                 let client;
                 try {
@@ -22,10 +22,9 @@ function router(nav) {
                     const db = client.db(dbName);
                     const col = db.collection('users');
                     const userFromDB = await col.findOne({ username });
-                    if (userFromDB){
-                        console.log("Duplicate User");
+                    if (userFromDB) {
+                        console.log('Duplicate User');
                     } else {
-                        
                         const user = { username, password };
                         const results = await col.insertOne(user);
 
@@ -33,14 +32,13 @@ function router(nav) {
                             const { _id } = user;
                             const usernameFromDB = {
                                 username: username
-                            }
+                            };
                             const newVals = {
                                 $push: {
                                     rooms: {
                                         Link: { _id: new ObjectID(_id) },
                                         Text: 'Your Chat Room'
                                     }
-                                    
                                 }
                             };
                             col.update(usernameFromDB, newVals, (err) => {
@@ -49,7 +47,6 @@ function router(nav) {
                             res.redirect('/auth/profile');
                         });
                     }
-                    
                 } catch (err) {
                     console.log(err);
                 }

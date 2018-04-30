@@ -1,4 +1,3 @@
-const express = require('express');
 const { MongoClient, ObjectID } = require('mongodb');
 
 module.exports = {
@@ -19,18 +18,18 @@ module.exports = {
                 const usernameToAdd = await col.findOne({ _id: new ObjectID(_id) });
                 let roomThereCheck = false;
                 // itterate through all the chat rooms to see if the ID has already been added
-                for(let j=0; j < addRoomHere.rooms.length; j++){
-                        const currentUserID = data._id.toString();
-                        const userChatRoomOwnerID = addRoomHere.rooms[j].Link._id.toString();
+                for (let j = 0; j < addRoomHere.rooms.length; j += 1) {
+                    const currentUserID = data._id.toString();
+                    const userChatRoomOwnerID = addRoomHere.rooms[j].Link._id.toString();
 
-                        if(currentUserID === userChatRoomOwnerID){
-                            roomThereCheck = true;
-                        }                 
+                    if (currentUserID === userChatRoomOwnerID) {
+                        roomThereCheck = true;
+                    }
                 }
                 // if the room is NOT there, then push it into the database
-                if(roomThereCheck != true){
+                if (roomThereCheck !== true) {
                     const addRoomHereUser = {
-                        username:username
+                        username: username
                     };
                     const newVals = {
                         $push: {
@@ -38,24 +37,57 @@ module.exports = {
                                 Link: { _id: new ObjectID(_id) },
                                 Text: `${usernameToAdd.username}'s Room`
                             }
-                            
                         }
                     };
                     col.update(addRoomHereUser, newVals, (err) => {
                         if (err) throw err;
                     });
                 }
-                
             } catch (err) {
                 console.log(err.stack);
             }
         }());
     },
-    storeData: function(data){
+    storeData(data, userInfo) {
         // taking the data and storing it in the db
-        console.log(data);
+        const url = 'mongodb://localhost:27017';
+        const dbName = 'chatServer';
+        // date
+        const date = new Date();
+        // time
+        const timestamp = date.getTime();
+        // URL
+        const URL = data[1];
+        const URLArray = URL.split('/');
+        const URLArrayLength = URLArray.length;
+        const roomID = URLArray[URLArrayLength - 1];
+        const messageArray = [userInfo.username, data[0], timestamp];
+        (async function mongo() {
+            let client;
+            try {
+                client = await MongoClient.connect(url);
+                const db = client.db(dbName);
+                const col = await db.collection('users');
+                const findChatRoomOwner = await col.findOne({ _id: new ObjectID(roomID) });  
+                const newVals = {
+                    $push: {
+                        discourse: {
+                            User: userInfo.username,
+                            Message: data[0],
+                            Time: timestamp
+                        }
+                    }
+                };
+                col.update(findChatRoomOwner, newVals, (err) => {
+                    if (err) throw err;
+                });
+            } catch (err) {
+                console.log(err.stack);
+            }
+        }());
+        return messageArray;
     },
-    pullData: function(){
-        console.log("beep boop I am pulling the data");
+    pullData() {
+        console.log('beep boop I am pulling the data');
     }
 };
