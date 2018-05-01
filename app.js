@@ -52,9 +52,12 @@ app.get('/', (req, res) => {
 
 
 io.on('connection', (socket) => {
-    // this area to be used for getting the DB and sending an array of messages?
-    const { pullData } = extraScripts;
-    pullData();
+    // this area to be used for getting the DB and sending an array of messages
+    socket.on('windowLoad', (data) => {
+        const { pullData } = extraScripts;
+        const userMessages = pullData(data);
+        io.emit('previousMessages', userMessages);
+    });
     socket.on('message', (data) => {
         const { storeData } = extraScripts;
         const returnData = storeData(data, chatRouter.userID);

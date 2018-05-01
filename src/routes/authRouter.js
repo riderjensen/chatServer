@@ -54,10 +54,7 @@ function router(nav) {
         });
     authRouter.route('/signIn')
         .get((req, res) => {
-            res.render('signin', {
-                nav,
-                title: 'Sign In'
-            });
+            res.redirect('auth/profile');
         })
         .post(passport.authenticate('local', {
             successRedirect: '/auth/profile',

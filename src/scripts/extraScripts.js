@@ -68,7 +68,7 @@ module.exports = {
                 client = await MongoClient.connect(url);
                 const db = client.db(dbName);
                 const col = await db.collection('users');
-                const findChatRoomOwner = await col.findOne({ _id: new ObjectID(roomID) });  
+                const findChatRoomOwner = await col.findOne({ _id: new ObjectID(roomID) });
                 const newVals = {
                     $push: {
                         discourse: {
@@ -87,7 +87,26 @@ module.exports = {
         }());
         return messageArray;
     },
-    pullData() {
-        console.log('beep boop I am pulling the data');
+    pullData(data) {
+        let discourseList;
+        const url = 'mongodb://localhost:27017';
+        const dbName = 'chatServer';
+        const URLArray = data.split('/');
+        const URLArrayLength = URLArray.length;
+        const roomID = URLArray[URLArrayLength - 1];
+        (async function mongo() {
+            let client;
+            try {
+                client = await MongoClient.connect(url);
+                const db = client.db(dbName);
+                const col = await db.collection('users');
+                const findChatRoomOwner = await col.findOne({ _id: new ObjectID(roomID) });
+                discourseList = findChatRoomOwner.discourse;
+                console.log(discourseList);
+            } catch (err) {
+                console.log(err.stack);
+            }
+        }());
+        console.log(discourseList);
     }
 };
