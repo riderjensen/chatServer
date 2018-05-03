@@ -44,7 +44,6 @@ function chatController(nav) {
                 const col = await db.collection('users');
                 const userFromDB = await col.findOne({ username });
                 const userRooms = userFromDB.rooms;
-                const previousMessages = userFromDB.discourse;
 
                 res.render(
                     'chat',
