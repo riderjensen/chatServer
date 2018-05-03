@@ -73,10 +73,10 @@ io.on('connection', (socket) => {
                 else if (discourseList.length <= 0) {
                     console.log('New User!');
                 } else if (discourseList.length < 50) {
-                    io.emit('previousMessages', discourseList);
+                    socket.emit('previousMessages', discourseList);
                 } else {
                     const shortList = discourseList.slice((discourseList.length - 50), discourseList.length);
-                    io.emit('previousMessages', shortList);
+                    socket.emit('previousMessages', shortList);
                 }
             } catch (err) {
                 console.log(err);

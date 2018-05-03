@@ -59,7 +59,10 @@ function createText(username, className, time, message) {
 }
 
 // create text without a username attached
-function createTextNoUsername(message, time) {
+function createTextNoUsername(message, className, time) {
+    // creating div
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add(className)
     // time
     const timeSpan = document.createElement('span');
     timeSpan.classList.add('userTime');
@@ -71,7 +74,8 @@ function createTextNoUsername(message, time) {
     // add
     userInfo.appendChild(timeSpan);
     userInfo.appendChild(userInfoTextNode);
-    document.getElementById('userMessages').lastChild.appendChild(userInfo);
+    messageDiv.appendChild(userInfo);
+    const lastChild = document.getElementById('userMessages').appendChild(messageDiv);
 }
 
 
@@ -80,13 +84,13 @@ socket.on('returnMessage', (userData) => {
     const currentTime = new Date(userData[2]).toLocaleTimeString();
     if (userData[0] === document.getElementById('username').innerHTML) {
         if (document.getElementById('userMessages').lastElementChild.classList.contains('sentFromHere') === true) {
-            createTextNoUsername(userData[1], currentTime);
+            createTextNoUsername(userData[1], 'sentFromHere', currentTime);
         } else {
             document.getElementById('userMessages').appendChild(createText(userData[0], 'sentFromHere', currentTime, userData[1]));
         }
     } else {
         if (document.getElementById('userMessages').lastElementChild.classList.contains('sentFromOther') === true) {
-            createTextNoUsername(userData[1], currentTime);
+            createTextNoUsername(userData[1], 'sentFromOther', currentTime);
         } else {
             document.getElementById('userMessages').appendChild(createText(userData[0], 'sentFromOther', currentTime, userData[1]));
         }      
@@ -101,13 +105,13 @@ socket.on('previousMessages', (prevMessagesArray) => {
         const currentTime = new Date(prevMessagesArray[i].Time).toLocaleTimeString();
         if (prevMessagesArray[i].User === document.getElementById('username').innerHTML) {
             if (document.getElementById('userMessages').lastElementChild.classList.contains('sentFromHere') === true) {
-                createTextNoUsername(prevMessagesArray[i].Message, currentTime);
+                createTextNoUsername(prevMessagesArray[i].Message, 'sentFromHere', currentTime);
             } else {
                 document.getElementById('userMessages').appendChild(createText(prevMessagesArray[i].User, 'sentFromHere', currentTime, prevMessagesArray[i].Message));
             }
         } else {
             if (document.getElementById('userMessages').lastElementChild.classList.contains('sentFromOther') === true) {
-                createTextNoUsername(prevMessagesArray[i].Message, currentTime);
+                createTextNoUsername(prevMessagesArray[i].Message, 'sentFromOther', currentTime);
             } else {
                 document.getElementById('userMessages').appendChild(createText(prevMessagesArray[i].User, 'sentFromOther', currentTime, prevMessagesArray[i].Message));
             }      
