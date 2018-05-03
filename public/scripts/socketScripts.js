@@ -6,9 +6,10 @@ const chatButton = document.getElementById('chatButton');
 chatButton.onclick = () => {
     const userMessage = document.getElementById('inputField').value;
     if ((userMessage !== '')) {
+        const username = document.getElementById('username').innerHTML;
         // URL
         const URL = window.location.href;
-        const userTotal = [userMessage, URL];
+        const userTotal = [username, userMessage, URL];
         socket.emit('message', userTotal);
     }
 };
@@ -95,6 +96,7 @@ socket.on('returnMessage', (userData) => {
 
 // get messages to display from db
 socket.on('previousMessages', (prevMessagesArray) => {
+    console.log(prevMessagesArray);
     for (let i = 0; i < prevMessagesArray.length; i += 1) {
         const currentTime = new Date(prevMessagesArray[i].Time).toLocaleTimeString();
         if (prevMessagesArray[i].User === document.getElementById('username').innerHTML) {

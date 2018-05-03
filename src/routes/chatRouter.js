@@ -18,7 +18,6 @@ function router(nav) {
     chatRouter.route('/:id')
         .all((req, res, next) => {
             if (req.user) {
-                chatRouter.userID = req.user;
                 next();
             } else {
                 res.redirect('/');

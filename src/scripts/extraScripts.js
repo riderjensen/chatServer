@@ -48,7 +48,7 @@ module.exports = {
             }
         }());
     },
-    storeData(data, userInfo) {
+    storeData(data) {
         // taking the data and storing it in the db
         const url = 'mongodb://localhost:27017';
         const dbName = 'chatServer';
@@ -57,11 +57,12 @@ module.exports = {
         // time
         const timestamp = date.getTime();
         // URL
-        const URL = data[1];
+        const URL = data[2];
         const URLArray = URL.split('/');
         const URLArrayLength = URLArray.length;
         const roomID = URLArray[URLArrayLength - 1];
-        const messageArray = [userInfo.username, data[0], timestamp];
+        const messageArray = [data[0], data[1], timestamp];
+
         (async function mongo() {
             let client;
             try {
@@ -72,8 +73,8 @@ module.exports = {
                 const newVals = {
                     $push: {
                         discourse: {
-                            User: userInfo.username,
-                            Message: data[0],
+                            User: data[0],
+                            Message: data[1],
                             Time: timestamp
                         }
                     }
@@ -86,27 +87,5 @@ module.exports = {
             }
         }());
         return messageArray;
-    },
-    pullData(data) {
-        let discourseList;
-        const url = 'mongodb://localhost:27017';
-        const dbName = 'chatServer';
-        const URLArray = data.split('/');
-        const URLArrayLength = URLArray.length;
-        const roomID = URLArray[URLArrayLength - 1];
-        (async function mongo() {
-            let client;
-            try {
-                client = await MongoClient.connect(url);
-                const db = client.db(dbName);
-                const col = await db.collection('users');
-                const findChatRoomOwner = await col.findOne({ _id: new ObjectID(roomID) });
-                discourseList = findChatRoomOwner.discourse;
-                console.log(discourseList);
-            } catch (err) {
-                console.log(err.stack);
-            }
-        }());
-        console.log(discourseList);
     }
 };

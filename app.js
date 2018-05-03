@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const session = require('express-session');
 const extraScripts = require('./src/scripts/extraScripts');
+const { MongoClient, ObjectID } = require('mongodb');
 
 const app = express();
 const server = require('http').Server(app);
@@ -52,15 +53,39 @@ app.get('/', (req, res) => {
 
 
 io.on('connection', (socket) => {
-    // this area to be used for getting the DB and sending an array of messages
+    // send out the previous chat messages when the page is loaded
     socket.on('windowLoad', (data) => {
-        const { pullData } = extraScripts;
-        const userMessages = pullData(data);
-        io.emit('previousMessages', userMessages);
+        const URLArray = data.split('/');
+        const URLArrayLength = URLArray.length;
+        const roomID = URLArray[URLArrayLength - 1];
+        (async function mongo() {
+            const url = 'mongodb://localhost:27017';
+            const dbName = 'chatServer';
+            try {
+                const client = await MongoClient.connect(url);
+                const db = client.db(dbName);
+                const col = await db.collection('users');
+                const findChatRoomOwner = await col.findOne({ _id: new ObjectID(roomID) });
+                const discourseList = findChatRoomOwner.discourse;
+                if (discourseList === undefined) {
+                    console.log('No chats');
+                }
+                else if (discourseList.length <= 0) {
+                    console.log('New User!');
+                } else if (discourseList.length < 50) {
+                    io.emit('previousMessages', discourseList);
+                } else {
+                    const shortList = discourseList.slice((discourseList.length - 50), discourseList.length);
+                    io.emit('previousMessages', shortList);
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        }());
     });
     socket.on('message', (data) => {
         const { storeData } = extraScripts;
-        const returnData = storeData(data, chatRouter.userID);
+        const returnData = storeData(data);
         io.emit('returnMessage', returnData);
     });
     socket.on('addRoom', (data) => {
