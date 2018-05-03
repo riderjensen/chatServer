@@ -9,14 +9,17 @@
   <li>Chat rooms to seperate conversations</li>
 </ul>
   
-  <p>This is a long term project where things will be added over time. There are major changes still needed such as:</p>
+  <p>This is a long term project where things will be added over time. There are major changes still needed:</p>
   <ul>
-  <li>Designing a front end template</li>
-  <li>Learning how to section off chat rooms so not everyone can join</li>
+  <li>Alert Duplicate User</li>
+  <li>Section off chat rooms to only people allowed</li>
   <li>Email verification</li>
+<li>User upload image for themselves</li>
+<li>Update the HTML on the first page</li>
+<li>Force an auto refresh when someone adds a chat room</li>
   </ul>
   
-  <p>This will be a growing list of things. Also check git commits for thigns done and to do lists</p>
+  <p>This will be a growing list of things. Also check git commits for things done and to do lists</p>
   
   <p>If you are seeing this then that is a problem because this is a private repository. Please stop going through my files.</p>
   
