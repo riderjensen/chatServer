@@ -135,16 +135,21 @@ input.addEventListener('keyup', (event) => {
     }
 });
 
-// // check for key presses to send message
-// document.onkeypress = () => {
-//     const username = document.getElementById('username').innerHTML;
-//     socket.emit('typing', username);
-// }
-
 // // recieve if someone is typing
 // socket.on('typing', (userTyping) => {
 //     document.getElementById('userTyping').innerHTML = `<p style="font-size: 8px;">${userTyping} is typing</p>`;
 // });
+
+const username = document.getElementById('username').innerHTML;
+var textInput = document.getElementById('inputField');
+var timeout = null;
+textInput.onkeyup = function (e) {
+    socket.emit('typing', username);
+    clearTimeout(timeout);
+    timeout = setTimeout(function () {
+        console.log('Input Value:', textInput.value);
+    }, 500);
+};
 
 // add room to user list
 const addRoomButton = document.getElementById('addRoom');
