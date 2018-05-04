@@ -1,7 +1,14 @@
-var socket = io('http://127.0.0.1:3000/');
+var socket = io.connect();
 // connection to socket IO and sending information to the server
+const URLArray = window.location.href.split('/');
+const URLArrayLength = URLArray.length;
+const room = URLArray[URLArrayLength - 1];
 
-// sending information to database
+socket.on('connect', () => {
+    socket.emit('room', room);
+})
+
+// sending information to server
 const chatButton = document.getElementById('chatButton');
 chatButton.onclick = () => {
     const userMessage = document.getElementById('inputField').value;
@@ -10,7 +17,7 @@ chatButton.onclick = () => {
         // URL
         const URL = window.location.href;
         const userTotal = [username, userMessage, URL];
-        socket.emit('message', userTotal);
+        socket.emit('message', userTotal, room);
     }
 };
 
@@ -100,7 +107,6 @@ socket.on('returnMessage', (userData) => {
 
 // get messages to display from db
 socket.on('previousMessages', (prevMessagesArray) => {
-    console.log(prevMessagesArray);
     for (let i = 0; i < prevMessagesArray.length; i += 1) {
         const currentTime = new Date(prevMessagesArray[i].Time).toLocaleTimeString();
         if (prevMessagesArray[i].User === document.getElementById('username').innerHTML) {
@@ -128,6 +134,17 @@ input.addEventListener('keyup', (event) => {
         input.value = '';
     }
 });
+
+// // check for key presses to send message
+// document.onkeypress = () => {
+//     const username = document.getElementById('username').innerHTML;
+//     socket.emit('typing', username);
+// }
+
+// // recieve if someone is typing
+// socket.on('typing', (userTyping) => {
+//     document.getElementById('userTyping').innerHTML = `<p style="font-size: 8px;">${userTyping} is typing</p>`;
+// });
 
 // add room to user list
 const addRoomButton = document.getElementById('addRoom');

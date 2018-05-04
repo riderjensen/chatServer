@@ -53,6 +53,9 @@ app.get('/', (req, res) => {
 
 
 io.on('connection', (socket) => {
+    socket.on('room', (room) => {
+        socket.join(room);
+    });
     // send out the previous chat messages when the page is loaded
     socket.on('windowLoad', (data) => {
         const URLArray = data.split('/');
@@ -83,14 +86,17 @@ io.on('connection', (socket) => {
             }
         }());
     });
-    socket.on('message', (data) => {
+    socket.on('message', (data, room) => {
         const { storeData } = extraScripts;
         const returnData = storeData(data);
-        io.emit('returnMessage', returnData);
+        io.sockets.in(room).emit('returnMessage', returnData);
     });
     socket.on('addRoom', (data) => {
         const { addRoom } = extraScripts;
         addRoom(data);
+    });
+    socket.on('typing', (username) => {
+        socket.broadcast.emit('typing', username);
     });
     socket.on('disconnect', () => {
     });
