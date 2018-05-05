@@ -70,12 +70,7 @@ io.on('connection', (socket) => {
                 const col = await db.collection('users');
                 const findChatRoomOwner = await col.findOne({ _id: new ObjectID(roomID) });
                 const discourseList = findChatRoomOwner.discourse;
-                if (discourseList === undefined) {
-                    console.log('No chats');
-                }
-                else if (discourseList.length <= 0) {
-                    console.log('New User!');
-                } else if (discourseList.length < 50) {
+                if (discourseList.length < 50 || discourseList === undefined) {
                     socket.emit('previousMessages', discourseList);
                 } else {
                     const shortList = discourseList.slice((discourseList.length - 50), discourseList.length);
@@ -97,6 +92,9 @@ io.on('connection', (socket) => {
     });
     socket.on('typing', (username) => {
         socket.broadcast.emit('typing', username);
+    });
+    socket.on('stopTyping', () => {
+        socket.broadcast.emit('stopTyping');
     });
     socket.on('disconnect', () => {
     });

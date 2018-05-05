@@ -55,17 +55,21 @@ signUpU.onkeyup = () => {
 
 // Adding tooltips to the sign up areas
 document.getElementById('signUpUsername').addEventListener('focusout', () => {
-  document.getElementById('signUpUsernameReqs').classList.toggle('toolTipHide');
-})
+    document.getElementById('signUpUsernameReqs').classList.toggle('toolTipHide');
+});
 
 document.getElementById('signUpUsername').addEventListener('focus', () => {
     document.getElementById('signUpUsernameReqs').classList.toggle('toolTipHide');
-})
+});
 
 document.getElementById('signUpPassword').addEventListener('focusout', () => {
-  document.getElementById('signUpPasswordReqs').classList.toggle('toolTipHide');
-})
+    document.getElementById('signUpPasswordReqs').classList.toggle('toolTipHide');
+});
 
 document.getElementById('signUpPassword').addEventListener('focus', () => {
     document.getElementById('signUpPasswordReqs').classList.toggle('toolTipHide');
-})
+});
+
+$('#signUpModal').on('shown.bs.modal', () => {
+    $('#signUpUsername').trigger('focus');
+});

@@ -1,16 +1,26 @@
+body {
+    background-color: #04151C;
+    color: white;
+  }
+.chatRooms{
+	background-color: #082836;
+}
 footer.footer{
+	position: absolute;
+    bottom: 0;
     width: 100%;
+}
+footer.footer p{
+	margin: 0;
 }
 div.userArea{
-    height: 89.5vh;
+    height: 73.5vh;
     width: 100%;
 }
+
 div.userInputFields{
 	display: flex;
 	justify-content: center;
-}
-div.userInputFields #username{
-	flex-basis: 50px;
 }
 div.userInputFields #inputField{
 	flex-basis: 100%;
@@ -53,6 +63,81 @@ div.userInputFields #chatButton{
 	margin-left: 10px;
 }
 
+#chatButton {
+	-moz-box-shadow:inset 0px 1px 0px 0px #97c4fe;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #97c4fe;
+	box-shadow:inset 0px 1px 0px 0px #97c4fe;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #3d94f6), color-stop(1, #1e62d0));
+	background:-moz-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:-webkit-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:-o-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:-ms-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3d94f6', endColorstr='#1e62d0',GradientType=0);
+	background-color:#3d94f6;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #337fed;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 22px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #1570cd;
+}
+#chatButton:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #1e62d0), color-stop(1, #3d94f6));
+	background:-moz-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+	background:-webkit-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+	background:-o-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+	background:-ms-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+	background:linear-gradient(to bottom, #1e62d0 5%, #3d94f6 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#1e62d0', endColorstr='#3d94f6',GradientType=0);
+	background-color:#1e62d0;
+}
+#chatButton:active {
+	position:relative;
+	top:1px;
+}
+.userInputFields i{
+	font-size: 20px;
+	color: #fff;
+}
+
 .user-chat-list-link{
 	display:block;
+}
+
+.userTyping{
+	font-size: 12px;
+	font-weight: 200;
+	color: 	#808080;
+}
+
+/* User styles */
+.user-display-area img{
+	max-width: 100px;
+	height: auto;
+	display: block;
+}
+
+.user-display-area{
+	margin: auto;
+}
+
+
+/* Tablet Styles */
+@media only screen and (min-width: 35rem) {
+	div.userArea{
+		height: 89.5vh;
+	}
+}
+
+/* Desktop Styles */
+@media only screen and (min-width: 64rem) {
+	
 }

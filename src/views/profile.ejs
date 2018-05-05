@@ -27,24 +27,37 @@
   <body>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-light bg-light static-top">
-      <div class="container">
-        <a class="navbar-brand" href="/">Chatarang</a>
-        <%for (var i=0; i < nav.length; i++) {%>
-          <a class="nav-link" href="<%=nav[i].Link%>"><%=nav[i].Text%></a>
-        <%}%>
-      </div>
-    </nav>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand" href="/">Chatarang</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+      
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+            <%for (var i=0; i < nav.length; i++) {%>
+              <li class="nav-item"></li>
+                <a class="nav-link" href="<%=nav[i].Link%>">
+                  <%=nav[i].Text%>
+                </a>
+              </li>
+            <%}%>
+            </ul>
+          </div>
+        </div>
+      </nav>
 
     <section>
       <div class="container">
         <div class="row">
-            <div class="col-lg-12 col-sm-12 pt-2">
-              <div>
-                  <h2><%=userData.username%></h2>
-                  <h2><%=userData.password%></h2>
-                  <h3><%=userData._id%></h3>
-              </div>
+            <div class="col-lg-4 col-sm-12 pt-2 user-display-area">
+              <img src="../../images/placeholder.png">
+            </div>
+            <div class="col-lg-8 col-sm-12 pt-2">
+              <h2><%=userData.username%></h2>
+              <h2><%=userData.password%></h2>
+              <h3><%=userData._id%></h3>
             </div>
         </div>
       </div>
@@ -52,7 +65,7 @@
 
 
     <!-- Footer -->
-    <footer class="footer bg-light">
+    <footer class="footer bg-dark">
       <div class="container">
         <div class="row">
           <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
@@ -78,12 +91,12 @@
           <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
             <ul class="list-inline mb-0">
               <li class="list-inline-item mr-3">
-                <a href="#">
+                <a href="https://twitter.com/riderjensen" target="_blank">
                   <i class="fa fa-twitter fa-2x fa-fw"></i>
                 </a>
               </li>
               <li class="list-inline-item">
-                <a href="#">
+                <a href="https://www.instagram.com/riderjensen/" target="_blank">
                   <i class="fa fa-instagram fa-2x fa-fw"></i>
                 </a>
               </li>

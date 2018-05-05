@@ -1,28 +1,27 @@
 var socket = io.connect();
 // connection to socket IO and sending information to the server
-const URLArray = window.location.href.split('/');
+const URL = window.location.href;
+const URLArray = URL.split('/');
 const URLArrayLength = URLArray.length;
 const room = URLArray[URLArrayLength - 1];
+const username = document.getElementById('username').innerHTML;
 
 socket.on('connect', () => {
     socket.emit('room', room);
-})
+});
 
 // sending information to server
 const chatButton = document.getElementById('chatButton');
 chatButton.onclick = () => {
     const userMessage = document.getElementById('inputField').value;
     if ((userMessage !== '')) {
-        const username = document.getElementById('username').innerHTML;
         // URL
-        const URL = window.location.href;
         const userTotal = [username, userMessage, URL];
         socket.emit('message', userTotal, room);
     }
 };
 
 function pullData() {
-    const URL = window.location.href;
     socket.emit('windowLoad', URL);
 }
 window.onload = pullData;
@@ -34,14 +33,14 @@ function scrollWindow() {
 }
 
 // creating text node for incoming chat messages
-function createText(username, className, time, message) {
+function createText(user, className, time, message) {
     // image
     const userImage = document.createElement('img');
     userImage.classList.add('userImage');
     userImage.setAttribute('src', '../images/placeholder.png');
     // username
     const userTag = document.createElement('p');
-    const userTextNode = document.createTextNode(`${username}`);
+    const userTextNode = document.createTextNode(`${user}`);
     userTag.appendChild(userTextNode);
     // div for username and image
     const usernameAndImageDiv = document.createElement('div');
@@ -69,7 +68,7 @@ function createText(username, className, time, message) {
 function createTextNoUsername(message, className, time) {
     // creating div
     const messageDiv = document.createElement('div');
-    messageDiv.classList.add(className)
+    messageDiv.classList.add(className);
     // time
     const timeSpan = document.createElement('span');
     timeSpan.classList.add('userTime');
@@ -82,7 +81,7 @@ function createTextNoUsername(message, className, time) {
     userInfo.appendChild(timeSpan);
     userInfo.appendChild(userInfoTextNode);
     messageDiv.appendChild(userInfo);
-    const lastChild = document.getElementById('userMessages').appendChild(messageDiv);
+    document.getElementById('userMessages').appendChild(messageDiv);
 }
 
 
@@ -123,6 +122,7 @@ socket.on('previousMessages', (prevMessagesArray) => {
             }      
         }
     }
+    scrollWindow();
 });
 
 // Enter pushes message out
@@ -135,30 +135,28 @@ input.addEventListener('keyup', (event) => {
     }
 });
 
-// // recieve if someone is typing
-// socket.on('typing', (userTyping) => {
-//     document.getElementById('userTyping').innerHTML = `<p style="font-size: 8px;">${userTyping} is typing</p>`;
-// });
-
-const username = document.getElementById('username').innerHTML;
-var textInput = document.getElementById('inputField');
-var timeout = null;
-textInput.onkeyup = function (e) {
+// user typing
+const textInput = document.getElementById('inputField');
+let timeout = null;
+textInput.onkeyup = () => {
     socket.emit('typing', username);
     clearTimeout(timeout);
-    timeout = setTimeout(function () {
-        console.log('Input Value:', textInput.value);
-    }, 500);
+    timeout = setTimeout(() => {
+        socket.emit('stopTyping');
+    }, 1000);
 };
+
+socket.on('typing', (user) => {
+    document.getElementById('userTyping').innerHTML = `<p class="userTyping">${user} is typing</p>`;
+});
+
+socket.on('stopTyping', () => {
+    document.getElementById('userTyping').innerHTML = '';
+});
 
 // add room to user list
 const addRoomButton = document.getElementById('addRoom');
 addRoomButton.onclick = () => {
-    const URL = window.location.href;
-    const URLArray = URL.split('/');
-    const URLArrayLength = URLArray.length;
-    const roomID = URLArray[URLArrayLength - 1];
-    const username = document.getElementById('username').innerHTML;
-    const roomIDandUser = { _id: roomID, username: username }
+    const roomIDandUser = { _id: room, username: username }
     socket.emit('addRoom', roomIDandUser);
 };

@@ -127,16 +127,16 @@ p#passwordReqs {
     display: inline-block;
 }
 .popup .popuptext {
-    width: 160px;
+    width: 300px;
     background-color: #555;
     color: #fff;
     text-align: center;
     border-radius: 6px;
-    padding: 8px 0;
+    padding: 10px;
     position: absolute;
     z-index: 1;
     bottom: 125%;
-    left: 50%;
+    left: 37%;
     margin-left: -80px;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -152,4 +152,33 @@ p#passwordReqs {
     border-width: 5px;
     border-style: solid;
     border-color: #555 transparent transparent transparent;
+}
+
+#signUpUsername, #signUpPassword {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+#signInUsername, #signInPassword{
+	width: 250px;
+    padding: 5px;
+}
+.popupLength{
+	width: 100%;
+}
+
+#signInForm p{
+	font-size: 1.3rem;
+	margin-bottom: 0px;
+	margin-top: 10px;
+}
+
+#signInForm .btn-primary{
+	display: block;
+	margin: auto;
+	margin-top: 20px;
 }
