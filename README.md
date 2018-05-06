@@ -17,6 +17,7 @@
 <li>User upload image for themselves</li>
 <li>Update the HTML on the first page</li>
 <li>Force an auto refresh when someone adds a chat room</li>
+<li>Have image thumbnails show/play videos in the app</li>
   </ul>
   
   <p>This will be a growing list of things. Also check git commits for things done and to do lists</p>
