@@ -1,6 +1,8 @@
 const express = require('express');
 const { MongoClient, ObjectID } = require('mongodb');
 const passport = require('passport');
+const bcrypt = require('bcrypt');
+
 
 const authRouter = express.Router();
 
@@ -14,43 +16,47 @@ function router(nav) {
             const { username, password } = req.body;
             const url = 'mongodb://localhost:27017';
             const dbName = 'chatServer';
-            (async function addUser() {
-                let client;
-                try {
-                    client = await MongoClient.connect(url);
+                bcrypt.hash(password, 10, function(err, hash) {
+                    console.log(hash);
+                (async function addUser() {
+                    let client;
+                    try {
+                        client = await MongoClient.connect(url);
 
-                    const db = client.db(dbName);
-                    const col = db.collection('users');
-                    const userFromDB = await col.findOne({ username });
-                    if (userFromDB) {
-                        console.log('Duplicate User');
-                    } else {
-                        const user = { username, password };
-                        const results = await col.insertOne(user);
+                        const db = client.db(dbName);
+                        const col = db.collection('users');
+                        const userFromDB = await col.findOne({ username });
+                        if (userFromDB) {
+                            console.log('Duplicate User');
+                        } else {
+                            
+                            const user = { username, password: hash };
+                            const results = await col.insertOne(user);
 
-                        req.login(results.ops[0], () => {
-                            const { _id } = user;
-                            const usernameFromDB = {
-                                username: username
-                            };
-                            const newVals = {
-                                $push: {
-                                    rooms: {
-                                        Link: { _id: new ObjectID(_id) },
-                                        Text: 'Your Chat Room'
+                            req.login(results.ops[0], () => {
+                                const { _id } = user;
+                                const usernameFromDB = {
+                                    username: username
+                                };
+                                const newVals = {
+                                    $push: {
+                                        rooms: {
+                                            Link: { _id: new ObjectID(_id) },
+                                            Text: 'Your Chat Room'
+                                        }
                                     }
-                                }
-                            };
-                            col.update(usernameFromDB, newVals, (err) => {
-                                if (err) throw err;
+                                };
+                                col.update(usernameFromDB, newVals, (err) => {
+                                    if (err) throw err;
+                                });
+                                res.redirect('/auth/profile');
                             });
-                            res.redirect('/auth/profile');
-                        });
+                        }
+                    } catch (err) {
+                        console.log(err);
                     }
-                } catch (err) {
-                    console.log(err);
-                }
-            }());
+                }());
+            });
         });
     authRouter.route('/signIn')
         .get((req, res) => {
