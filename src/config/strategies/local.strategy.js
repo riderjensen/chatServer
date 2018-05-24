@@ -26,15 +26,10 @@ module.exports = function localStrategy() {
                     console.log('No user');
                 } else if (user != null) {
                     bcrypt.compare(password, user.password, function(err, res) {
-                        console.log('User entered ' +password);
-                        console.log('User password '+ user.password );
-                        console.log(res);
                         if(res == true){
-                            console.log('User is true');
                             done(null, user);
                         }
                         else{
-                            console.log('User is false');
                             done(null, false);
                         }
                     });

@@ -70,7 +70,9 @@ io.on('connection', (socket) => {
                 const col = await db.collection('users');
                 const findChatRoomOwner = await col.findOne({ _id: new ObjectID(roomID) });
                 const discourseList = findChatRoomOwner.discourse;
-                if (discourseList.length < 50 || discourseList === undefined) {
+                if (discourseList === undefined) {
+                    console.log('Discourse list undefined');
+                } else if (discourseList.length < 50 || discourseList === undefined) {
                     socket.emit('previousMessages', discourseList);
                 } else {
                     const shortList = discourseList.slice((discourseList.length - 50), discourseList.length);
