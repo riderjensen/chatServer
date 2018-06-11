@@ -1,8 +1,6 @@
 const express = require('express');
 const { MongoClient, ObjectID } = require('mongodb');
 const passport = require('passport');
-const bcrypt = require('bcrypt');
-
 
 const authRouter = express.Router();
 
@@ -16,8 +14,6 @@ function router(nav) {
             const { username, password } = req.body;
             const url = 'mongodb://localhost:27017';
             const dbName = 'chatServer';
-                bcrypt.hash(password, 10, function(err, hash) {
-                    console.log(hash);
                 (async function addUser() {
                     let client;
                     try {
@@ -30,7 +26,7 @@ function router(nav) {
                             console.log('Duplicate User');
                         } else {
                             
-                            const user = { username, password: hash };
+                            const user = { username, password };
                             const results = await col.insertOne(user);
 
                             req.login(results.ops[0], () => {
@@ -56,7 +52,6 @@ function router(nav) {
                         console.log(err);
                     }
                 }());
-            });
         });
     authRouter.route('/signIn')
         .get((req, res) => {

@@ -1,7 +1,6 @@
 const passport = require('passport');
 const { Strategy } = require('passport-local');
 const { MongoClient } = require('mongodb');
-const bcrypt = require('bcrypt');
 
 // this is for cookies
 module.exports = function localStrategy() {
@@ -25,15 +24,11 @@ module.exports = function localStrategy() {
                     done(null, false);
                     console.log('No user');
                 } else if (user != null) {
-                    bcrypt.compare(password, user.password, function(err, res) {
-                        if(res == true){
-                            done(null, user);
-                        }
-                        else{
-                            done(null, false);
-                        }
-                    });
-                    
+                    if (password === user.password) {
+                        done(null, user);
+                    } else {
+                        done(null, false);
+                    }
                 } else {
                     done(null, false);
                 }
