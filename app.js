@@ -10,6 +10,7 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
+
 const nav = [{
     Link: '/auth/profile',
     Text: 'Profile'
@@ -20,7 +21,7 @@ const nav = [{
 }];
 
 // middleware
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({
     extended: false
@@ -32,7 +33,7 @@ app.use(session({
 require('./src/config/passport')(app);
 require('./src/config/strategies/local.strategy')(passport);
 
-app.use(express.static(__dirname + '/public/'));
+
 
 // routes
 const chatRouter = require('./src/routes/chatRouter')(nav);
@@ -49,6 +50,9 @@ app.get('/', (req, res) => {
     res.render('index', { nav });
 });
 
+app.get('*', (req, res) => {
+    res.send('Error');
+});
 
 io.on('connection', (socket) => {
     socket.on('room', (room) => {
@@ -100,11 +104,13 @@ io.on('connection', (socket) => {
     });
 });
 
-server.listen(3000, 'localhost', () => console.log(`App is running on 3000`));
+console.log(__dirname + '/public/');
+server.listen(8080, 'localhost', () => console.log(`App is running on 8080`));
 
 
 // run db
 // mongod --dbpath "C:\Program Files\MongoDB\data"
 
 // To send files to the server
+// D:\Putty> pscp -r E:\chatServer\app.js rider@206.189.215.126:/home/rider/chatServer
 // D:\Putty> pscp -r E:\chatServer\src\views\index.ejs rider@206.189.215.126:/home/rider/chatServer/src/views
