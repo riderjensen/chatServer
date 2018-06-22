@@ -37,7 +37,7 @@ function createText(user, className, time, message) {
     // image
     const userImage = document.createElement('img');
     userImage.classList.add('userImage');
-    userImage.setAttribute('src', '../images/placeholder.png');
+    userImage.setAttribute('src', '../public/images/placeholder.png');
     // username
     const userTag = document.createElement('p');
     const userTextNode = document.createTextNode(`${user}`);
