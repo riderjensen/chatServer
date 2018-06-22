@@ -5,6 +5,7 @@ const passport = require('passport');
 const session = require('express-session');
 const extraScripts = require('./src/scripts/extraScripts');
 const { MongoClient, ObjectID } = require('mongodb');
+const path = require('path');
 
 const app = express();
 const server = require('http').Server(app);
@@ -21,7 +22,7 @@ const nav = [{
 }];
 
 // middleware
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({
     extended: false
@@ -104,7 +105,6 @@ io.on('connection', (socket) => {
     });
 });
 
-console.log(__dirname + '/public/');
 server.listen(8080, 'localhost', () => console.log(`App is running on 8080`));
 
 
